@@ -1,0 +1,21 @@
+-- Actualizar todas las URLs de imágenes
+UPDATE products SET image_url = 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400' WHERE barcode = '7802900000017';
+UPDATE products SET image_url = 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=400' WHERE barcode = '7802900000024';
+UPDATE products SET image_url = 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400' WHERE barcode = '7801234567890';
+UPDATE products SET image_url = 'https://images.unsplash.com/photo-1598373182133-52452f7691ef?w=400' WHERE barcode = '7801234567891';
+UPDATE products SET image_url = 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400' WHERE barcode = '7801234567892';
+UPDATE products SET image_url = 'https://images.unsplash.com/photo-1600113573835-e3c8e8cd4da8?w=400' WHERE barcode = '7801234567893';
+UPDATE products SET image_url = 'https://images.unsplash.com/photo-1604503468506-a8da13d82791?w=400' WHERE barcode = '7801234567894';
+UPDATE products SET image_url = 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=400' WHERE barcode = '7801234567895';
+UPDATE products SET image_url = 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400' WHERE barcode = '7801234567896';
+UPDATE products SET image_url = 'https://images.unsplash.com/photo-1546094096-0df4bcaaa337?w=400' WHERE barcode = '7801234567897';
+UPDATE products SET image_url = 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400' WHERE barcode = '7801234567898';
+UPDATE products SET image_url = 'https://images.unsplash.com/photo-1590165482129-1b8b27698780?w=400' WHERE barcode = '7801234567899';
+UPDATE products SET image_url = 'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=400' WHERE barcode = '7801234567900';
+UPDATE products SET image_url = 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400' WHERE barcode = '7801234567901';
+UPDATE products SET image_url = 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400' WHERE barcode = '7801234567902';
+UPDATE products SET image_url = 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400' WHERE barcode = '7801234567903';
+UPDATE products SET image_url = 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400' WHERE barcode = '7801234567904';
+UPDATE products SET image_url = 'https://images.unsplash.com/photo-1608181982208-f91722aeee7c?w=400' WHERE barcode = '7801234567905';
+UPDATE products SET image_url = 'https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=400' WHERE barcode = '7801234567906';
+UPDATE products SET image_url = 'https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?w=400' WHERE barcode = '7801234567907';
