@@ -36,11 +36,9 @@ El proyecto ya incluye archivos `.env` configurados, pero puedes personalizarlos
 **Backend** (`backend/.env`):
 ```env
 DATABASE_URL=postgresql://liquiverde:liquiverde123@db:5432/liquiverde
-REDIS_URL=redis://redis:6379/0
 SECRET_KEY=your-secret-key-here-change-in-production-123456789
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
-USDA_API_KEY=  # Opcional: tu API key de USDA FoodData Central
 ```
 
 **Frontend** (`frontend/.env`):
@@ -56,7 +54,6 @@ docker-compose up --build
 Este comando:
 - Construye las imágenes de Docker para backend y frontend
 - Inicia PostgreSQL en el puerto 5432
-- Inicia Redis en el puerto 6379
 - Inicia el backend FastAPI en http://localhost:8000
 - Inicia el frontend React en http://localhost:5173
 
@@ -84,7 +81,7 @@ docker-compose down -v
 
 #### Backend
 
-1. **Instalar PostgreSQL y Redis localmente**
+1. **Instalar PostgreSQL localmente**
 
 2. **Configurar entorno virtual de Python**
 ```bash
@@ -98,7 +95,6 @@ pip install -r requirements.txt
 Editar `backend/.env` con las URLs locales:
 ```env
 DATABASE_URL=postgresql://usuario:password@localhost:5432/liquiverde
-REDIS_URL=redis://localhost:6379/0
 ```
 
 4. **Iniciar el backend**
@@ -331,10 +327,8 @@ Prueba tecnica grupo lagos/
 - **FastAPI 0.104.1**: Framework web moderno y de alto rendimiento
 - **SQLAlchemy 2.0.23**: ORM para interacción con base de datos
 - **PostgreSQL 15**: Base de datos relacional
-- **Redis 5.0.1**: Caché en memoria
 - **Python-Jose 3.3.0**: Manejo de tokens JWT
 - **Passlib 1.7.4**: Hash seguro de contraseñas
-- **httpx 0.25.2**: Cliente HTTP para APIs externas
 
 ### Frontend
 - **React 18**: Biblioteca para interfaces de usuario
@@ -346,19 +340,6 @@ Prueba tecnica grupo lagos/
 ### DevOps
 - **Docker & Docker Compose**: Containerización
 - **Uvicorn**: Servidor ASGI para FastAPI
-
-## 🔌 APIs Externas Integradas
-
-### OpenFoodFacts API
-- **URL**: https://world.openfoodfacts.org/api/v0/
-- **Uso**: Búsqueda de productos por código de barras
-- **Datos obtenidos**: Información nutricional, ingredientes, Nutri-Score
-
-### USDA FoodData Central API
-- **URL**: https://api.nal.usda.gov/fdc/v1/
-- **Uso**: Búsqueda de alimentos y nutrientes
-- **API Key**: Opcional (configurar en `.env`)
-- **Datos obtenidos**: Valores nutricionales detallados
 
 ## 📦 Dataset de Productos
 
@@ -402,7 +383,6 @@ Este proyecto fue desarrollado con asistencia significativa de **GitHub Copilot*
 - Generación de endpoints RESTful completos con documentación OpenAPI
 - Implementación de autenticación JWT con OAuth2PasswordBearer
 - Manejo de dependencias y inyección de base de datos
-- Integración con APIs externas (OpenFoodFacts, USDA)
 
 **Decisiones humanas**: Elección de estructura de respuestas, manejo de errores específicos, configuración de CORS para desarrollo.
 
@@ -486,7 +466,6 @@ Sin embargo, **todas las decisiones finales de diseño, arquitectura y lógica d
 - `GET /api/products/{id}` - Detalle de producto
 - `GET /api/products/{id}/sustainability` - Análisis de sostenibilidad
 - `GET /api/products/{id}/substitutes` - Alternativas sostenibles
-- `GET /api/products/search/barcode/{barcode}` - Buscar por código de barras
 
 ### Listas de Compras
 - `GET /api/shopping-lists/` - Listar mis listas

@@ -4,9 +4,9 @@
 
 - Python 3.11+
 - Node.js 20+
-- Docker y Docker Compose (solo para DB y Redis)
+- Docker y Docker Compose (solo para DB)
 
-## 🐳 Paso 1: Levantar Base de Datos y Redis
+## 🐳 Paso 1: Levantar Base de Datos
 
 ```powershell
 # En la raíz del proyecto
@@ -15,7 +15,6 @@ docker-compose up -d
 
 Esto levantará:
 - PostgreSQL en `localhost:5432`
-- Redis en `localhost:6379`
 
 ## 🔧 Paso 2: Configurar y Ejecutar Backend
 
@@ -72,7 +71,7 @@ Ahora cuando modifiques:
 ```powershell
 # Detener backend/frontend: Ctrl+C en cada terminal
 
-# Detener Docker (DB y Redis)
+# Detener Docker (DB)
 docker-compose down
 
 # O para mantener los datos y solo pausar:
@@ -84,9 +83,6 @@ docker-compose stop
 ```powershell
 # Ver logs de PostgreSQL
 docker logs liquiverde_db
-
-# Ver logs de Redis
-docker logs liquiverde_redis
 
 # Conectar a la base de datos
 docker exec -it liquiverde_db psql -U postgres -d liquiverde
