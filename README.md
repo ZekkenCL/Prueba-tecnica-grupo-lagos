@@ -137,7 +137,32 @@ liquiverde/
 ### Prerrequisitos
 - Python 3.11+
 - Node.js 18+
-- PostgreSQL 14+
+- Docker y Docker Compose (o PostgreSQL 14+ instalado localmente)
+
+### Base de Datos
+
+**Opción 1: Usando Docker Compose (Recomendado)**
+
+El proyecto incluye un `docker-compose.yml` que levanta PostgreSQL automáticamente:
+
+```bash
+# Desde la raíz del proyecto
+docker-compose up -d
+```
+
+Esto creará:
+- Base de datos PostgreSQL 15 en puerto 5432
+- Usuario: `postgres`
+- Contraseña: `postgres`
+- Base de datos: `liquiverde`
+- Volumen persistente para los datos
+
+**Opción 2: PostgreSQL Local**
+
+Si prefieres instalar PostgreSQL localmente:
+```sql
+CREATE DATABASE liquiverde;
+```
 
 ### Backend
 
@@ -145,7 +170,7 @@ liquiverde/
 ```bash
 cd backend
 python -m venv venv
-.\venv\Scripts\activate  # Windows
+.\venv\Scripts\activate
 ```
 
 2. **Instalar dependencias**
@@ -158,7 +183,8 @@ pip install -r requirements.txt
 # Crear archivo .env en la raíz del proyecto
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/liquiverde
 SECRET_KEY=tu-clave-secreta-super-segura
-ALLOWED_ORIGINS=debe ir la direccion del fronend para poder conectarse correctamente al backend ej: http://localhost:5173
+ALLOWED_ORIGINS=http://localhost:5173,http://localhost:3000
+
 ```
 
 4. **Iniciar servidor**
@@ -170,7 +196,7 @@ uvicorn app.main:app --reload
 Backend disponible en: http://localhost:8000
 API Docs: http://localhost:8000/docs
 
-5. **Cargar dataset** 
+**Nota**: El dataset de productos se carga automáticamente al iniciar el backend si la base de datos está vacía. También puedes cargarlo manualmente:
 ```bash
 python app/load_initial_data.py
 ```
