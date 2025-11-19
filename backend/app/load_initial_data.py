@@ -70,10 +70,10 @@ def load_products():
             db.add(product)
         
         db.commit()
-        print(f"✅ Se cargaron {len(products_data)} productos exitosamente!")
+        print(f" Se cargaron {len(products_data)} productos exitosamente!")
         
     except Exception as e:
-        print(f"❌ Error cargando productos: {e}")
+        print(f" Error cargando productos: {e}")
         db.rollback()
     finally:
         db.close()
