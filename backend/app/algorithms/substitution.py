@@ -146,9 +146,20 @@ class ProductSubstitution:
         }
 
 def find_product_substitutes(product: Dict, available_products: List[Dict], 
+                            max_price_increase: float = 0.35,
+                            min_score_improvement: float = 2.0,
                             max_results: int = 5) -> List[Dict]:
     """
     Función helper para encontrar sustitutos
+    Retorna solo los productos (sin metadata) para compatibilidad con tests
     """
     substitution = ProductSubstitution()
-    return substitution.find_substitutes(product, available_products, max_results=max_results)
+    results = substitution.find_substitutes(
+        product, 
+        available_products, 
+        max_price_increase=max_price_increase,
+        min_score_improvement=min_score_improvement,
+        max_results=max_results
+    )
+    # Extraer solo los productos de los resultados
+    return [item['product'] for item in results]

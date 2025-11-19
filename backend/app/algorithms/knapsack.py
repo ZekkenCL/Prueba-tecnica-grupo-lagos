@@ -51,7 +51,7 @@ class MultiObjectiveKnapsack:
         total_nutrition = sum(p.total_nutrition() for p in products)
         
         # Normalizar valores
-        price_score = (self.budget - total_price) / self.budget  # Mientras menos gastemos, mejor
+        price_score = (self.budget - total_price) / self.budget if self.budget > 0 else 0
         eco_score = total_eco / 100.0 if len(products) > 0 else 0
         nutrition_score = total_nutrition / 100.0 if len(products) > 0 else 0
         
@@ -71,7 +71,13 @@ class MultiObjectiveKnapsack:
         Algoritmo genético para optimizar la lista de compras
         """
         if not available_products:
-            return [], {"total_cost": 0, "eco_score": 0, "savings": 0}
+            return [], {
+                "total_cost": 0,
+                "eco_score": 0,
+                "savings": self.budget,
+                "total_products": 0,
+                "budget_usage": 0
+            }
         
         # Inicializar productos requeridos
         if required_products is None:
@@ -146,7 +152,7 @@ class MultiObjectiveKnapsack:
             "eco_score": round(total_eco / len(best_solution) if best_solution else 0, 2),
             "savings": round(savings, 2),
             "total_products": len(best_solution),
-            "budget_usage": round((total_cost / self.budget) * 100, 2)
+            "budget_usage": round((total_cost / self.budget) * 100, 2) if self.budget > 0 else 0
         }
         
         return best_solution, metrics

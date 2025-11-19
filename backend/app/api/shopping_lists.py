@@ -196,7 +196,7 @@ def add_item_to_list(
     db.add(db_item)
     db.commit()
     
-    return {"message": "Item added", "item_id": db_item.id}
+    return {"message": "Item added successfully", "item_id": db_item.id}
 
 @router.patch("/{list_id}/items/{item_id}")
 def update_item_quantity(
@@ -227,8 +227,9 @@ def update_item_quantity(
     
     item.quantity = update_data.quantity
     db.commit()
+    db.refresh(item)
     
-    return {"message": "Quantity updated", "new_quantity": update_data.quantity}
+    return {"message": "Quantity updated", "quantity": item.quantity, "item_id": item.id}
 
 @router.delete("/{list_id}/items/{item_id}")
 def remove_item_from_list(
@@ -257,7 +258,7 @@ def remove_item_from_list(
     db.delete(item)
     db.commit()
     
-    return {"message": "Item removed"}
+    return {"message": "Item deleted successfully"}
 
 @router.post("/{list_id}/optimize")
 def optimize_list(
@@ -337,8 +338,13 @@ def optimize_list(
         "message": "List optimized successfully",
         "selected_items": len(result['products']),
         "total_cost": result['metrics']['total_cost'],
-        "average_eco_score": result['metrics']['eco_score'],
-        "savings": result['metrics']['savings']
+        "total_eco_score": result['metrics']['eco_score'],
+        "savings": result['metrics']['savings'],
+        "optimization_details": {
+            "budget_usage": result['metrics']['budget_usage'],
+            "total_products": result['metrics']['total_products'],
+            "products": result['products']
+        }
     }
 
 @router.post("/{list_id}/substitute")
@@ -461,4 +467,4 @@ def delete_shopping_list(
     db.delete(shopping_list)
     db.commit()
     
-    return {"message": "Shopping list deleted"}
+    return {"message": "Shopping list deleted successfully"}

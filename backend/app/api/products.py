@@ -65,6 +65,7 @@ def get_products(
     limit: int = 50,
     category: Optional[str] = None,
     search: Optional[str] = None,
+    min_eco_score: Optional[float] = None,
     db: Session = Depends(get_db)
 ):
     query = db.query(Product)
@@ -74,6 +75,9 @@ def get_products(
     
     if search:
         query = query.filter(Product.name.ilike(f"%{search}%"))
+    
+    if min_eco_score is not None:
+        query = query.filter(Product.eco_score >= min_eco_score)
     
     products = query.offset(skip).limit(limit).all()
     return products
@@ -108,15 +112,16 @@ def get_product_sustainability(product_id: int, db: Session = Depends(get_db)):
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
     
-    # Calcular promedio de categoría
-    avg_price = db.query(func.avg(Product.price)).filter(Product.category == product.category).scalar()
+    # Obtener todos los productos de la categoría
+    category_products = db.query(Product).filter(Product.category == product.category).all()
     
-    # Convertir a dict
+    # Convertir a dicts
     product_dict = {
         'id': product.id,
         'name': product.name,
         'price': product.price,
         'category': product.category,
+        'eco_score': product.eco_score,
         'carbon_footprint': product.carbon_footprint,
         'water_usage': product.water_usage,
         'packaging_score': product.packaging_score,
@@ -125,7 +130,15 @@ def get_product_sustainability(product_id: int, db: Session = Depends(get_db)):
         'brand': product.brand
     }
     
-    return calculate_sustainability_score(product_dict, avg_price)
+    all_products_dicts = [{
+        'id': p.id,
+        'name': p.name,
+        'price': p.price,
+        'category': p.category,
+        'eco_score': p.eco_score
+    } for p in category_products]
+    
+    return calculate_sustainability_score(product_dict, all_products_dicts)
 
 @router.get("/{product_id}/substitutes")
 def get_product_substitutes(

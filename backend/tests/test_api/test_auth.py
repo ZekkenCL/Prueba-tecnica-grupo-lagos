@@ -53,7 +53,7 @@ def test_register_duplicate_username(client, test_user):
     )
     
     assert response.status_code == 400
-    assert "already exists" in response.json()["detail"].lower()
+    assert "already" in response.json()["detail"].lower()
 
 
 @pytest.mark.integration

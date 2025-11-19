@@ -151,7 +151,7 @@ def sample_shopping_list(db, test_user, sample_products):
     shopping_list = ShoppingList(
         name="Lista Test",
         budget=10000.0,
-        user_id=test_user.id
+        owner_id=test_user.id
     )
     db.add(shopping_list)
     db.commit()

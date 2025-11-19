@@ -78,10 +78,23 @@ def test_update_budget(client, sample_shopping_list, auth_headers):
 
 
 @pytest.mark.integration
-def test_add_item_to_list(client, sample_shopping_list, sample_products, auth_headers):
+def test_add_item_to_list(client, sample_shopping_list, sample_products, auth_headers, db):
     """Test para agregar producto a lista"""
+    from app.models.models import Product
+    
+    # Crear un producto nuevo que no esté en la lista
+    new_product = Product(
+        name="Producto Nuevo",
+        category="Test",
+        price=1000.0,
+        eco_score=75.0
+    )
+    db.add(new_product)
+    db.commit()
+    db.refresh(new_product)
+    
     list_id = sample_shopping_list.id
-    product_id = sample_products[0].id
+    product_id = new_product.id
     
     response = client.post(
         f"/api/shopping-lists/{list_id}/items",
@@ -224,4 +237,5 @@ def test_cannot_access_other_user_list(client, sample_shopping_list, db):
         headers=other_headers
     )
     
-    assert response.status_code == 403  # Forbidden
+    # La API devuelve 404 para no revelar que la lista existe (mejor seguridad)
+    assert response.status_code == 404

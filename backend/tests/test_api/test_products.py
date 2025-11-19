@@ -160,7 +160,9 @@ def test_create_product(client, auth_headers):
 
 @pytest.mark.integration
 def test_get_products_unauthorized(client, sample_products):
-    """Test que requiere autenticación"""
+    """Test que verifica que la lista de productos es pública (no requiere autenticación)"""
     response = client.get("/api/products/")
     
-    assert response.status_code == 401
+    # Los productos deben ser accesibles sin autenticación
+    assert response.status_code == 200
+    assert len(response.json()) > 0

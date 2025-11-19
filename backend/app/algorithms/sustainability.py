@@ -6,7 +6,7 @@ Calcula puntuación considerando factores:
 - Social (condiciones laborales, comercio justo)
 """
 
-from typing import Dict
+from typing import Dict, List
 
 class SustainabilityScorer:
     def __init__(self):
@@ -95,7 +95,8 @@ class SustainabilityScorer:
         social_score = product.get('social_score', 50)
         
         # Ajustar por origen (productos locales tienen mejor score)
-        store = product.get('store', '').lower()
+        store = product.get('store', '') or ''
+        store = store.lower()
         if 'local' in store or 'feria' in store:
             social_score = min(100, social_score + 15)
         
@@ -126,9 +127,21 @@ class SustainabilityScorer:
             'environmental_score': round(environmental, 2),
             'social_score': round(social, 2),
             'breakdown': {
-                'carbon_footprint': product.get('carbon_footprint', 0),
-                'water_usage': product.get('water_usage', 0),
-                'packaging_score': product.get('packaging_score', 50)
+                'economic': {
+                    'score': round(economic, 2),
+                    'weight': self.weights['economic']
+                },
+                'environmental': {
+                    'score': round(environmental, 2),
+                    'weight': self.weights['environmental'],
+                    'carbon_footprint': product.get('carbon_footprint', 0),
+                    'water_usage': product.get('water_usage', 0),
+                    'packaging_score': product.get('packaging_score', 50)
+                },
+                'social': {
+                    'score': round(social, 2),
+                    'weight': self.weights['social']
+                }
             }
         }
     
@@ -149,9 +162,19 @@ class SustainabilityScorer:
             'improvement_percentage': round(abs(diff), 2)
         }
 
-def calculate_sustainability_score(product: Dict, category_avg_price: float = None) -> Dict:
+def calculate_sustainability_score(product: Dict, all_products: List[Dict] = None) -> Dict:
     """
     Función helper para calcular score de sostenibilidad
     """
     scorer = SustainabilityScorer()
+    
+    # Calcular precio promedio de la categoría si se proporciona lista de productos
+    category_avg_price = None
+    if all_products:
+        category = product.get('category', '')
+        category_products = [p for p in all_products if p.get('category') == category]
+        if category_products:
+            prices = [p.get('price', 0) for p in category_products]
+            category_avg_price = sum(prices) / len(prices) if prices else None
+    
     return scorer.calculate_total_score(product, category_avg_price)

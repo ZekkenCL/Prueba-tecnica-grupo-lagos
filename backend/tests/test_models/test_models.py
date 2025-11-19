@@ -5,6 +5,8 @@ import pytest
 from app.models.models import User, Product, ShoppingList, ShoppingListItem
 from app.api.auth import get_password_hash, verify_password
 
+# Nota: El modelo usa owner_id, no user_id
+
 
 @pytest.mark.unit
 def test_user_model_creation(db):
@@ -62,7 +64,7 @@ def test_shopping_list_model_creation(db, test_user):
     shopping_list = ShoppingList(
         name="Test List",
         budget=10000.0,
-        user_id=test_user.id
+        owner_id=test_user.id
     )
     
     db.add(shopping_list)
@@ -72,7 +74,7 @@ def test_shopping_list_model_creation(db, test_user):
     assert shopping_list.id is not None
     assert shopping_list.name == "Test List"
     assert shopping_list.budget == 10000.0
-    assert shopping_list.user_id == test_user.id
+    assert shopping_list.owner_id == test_user.id
 
 
 @pytest.mark.unit
@@ -81,7 +83,7 @@ def test_shopping_list_item_creation(db, test_user, sample_products):
     shopping_list = ShoppingList(
         name="Test List",
         budget=10000.0,
-        user_id=test_user.id
+        owner_id=test_user.id
     )
     db.add(shopping_list)
     db.commit()
@@ -106,8 +108,8 @@ def test_shopping_list_item_creation(db, test_user, sample_products):
 @pytest.mark.unit
 def test_user_shopping_lists_relationship(db, test_user):
     """Test de relación User -> ShoppingLists"""
-    list1 = ShoppingList(name="List 1", budget=5000, user_id=test_user.id)
-    list2 = ShoppingList(name="List 2", budget=8000, user_id=test_user.id)
+    list1 = ShoppingList(name="List 1", budget=5000, owner_id=test_user.id)
+    list2 = ShoppingList(name="List 2", budget=8000, owner_id=test_user.id)
     
     db.add(list1)
     db.add(list2)
@@ -125,7 +127,7 @@ def test_shopping_list_items_relationship(db, test_user, sample_products):
     shopping_list = ShoppingList(
         name="Test List",
         budget=10000.0,
-        user_id=test_user.id
+        owner_id=test_user.id
     )
     db.add(shopping_list)
     db.commit()
@@ -206,7 +208,7 @@ def test_cascade_delete_shopping_list(db, test_user, sample_products):
     shopping_list = ShoppingList(
         name="Test List",
         budget=10000.0,
-        user_id=test_user.id
+        owner_id=test_user.id
     )
     db.add(shopping_list)
     db.commit()
