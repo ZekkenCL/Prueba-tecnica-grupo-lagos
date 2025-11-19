@@ -158,6 +158,7 @@ pip install -r requirements.txt
 # Crear archivo .env en la raíz del proyecto
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/liquiverde
 SECRET_KEY=tu-clave-secreta-super-segura
+ALLOWED_ORIGINS=debe ir la direccion del fronend para poder conectarse correctamente al backend ej: http://localhost:5173
 ```
 
 4. **Iniciar servidor**
