@@ -1,0 +1,10 @@
+# Archivos de test
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+*.egg-info/
